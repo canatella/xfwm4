@@ -38,4 +38,5 @@ void                     clientCycle                            (Client *,
                                                                  XKeyEvent *);
 gboolean                 clientSwitchWindow                     (void);
 gboolean                 clientSwitchApp                        (void);
+void                     clientFocusDirection                   (Client * c, int dir);
 #endif /* INC_CYCLE_H */

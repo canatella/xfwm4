@@ -450,6 +450,12 @@ handleKeyPress (DisplayInfo *display_info, XKeyEvent * ev)
                                frameY (c) + frameHeight (c) / 2,
                                TILE_UP, TRUE);
                 break;
+            case KEY_FOCUS_UP:
+            case KEY_FOCUS_LEFT:
+            case KEY_FOCUS_DOWN:
+            case KEY_FOCUS_RIGHT:
+                clientFocusDirection(c, key - KEY_FOCUS_UP);
+                break;
             default:
                 break;
         }

@@ -61,6 +61,8 @@ static Client *user_focus    = NULL;
 static Client *delayed_focus = NULL;
 static guint focus_timeout   = 0;
 
+typedef enum _FocusDirection { FOCUS_UP, FOCUS_LEFT, FOCUS_DOWN, FOCUS_RIGHT } FocusDirection;
+
 #if 0
 static void
 clientDumpList (ScreenInfo *screen_info)
@@ -786,4 +788,52 @@ Client *
 clientGetDelayedFocus (void)
 {
     return delayed_focus;
+}
+
+void 
+clientFocusDirection (Client * c, int dir)
+{
+    Client *c2, *n = NULL;
+    guint i;
+    gint diff = 0, cur = 1024 * 1024;
+
+    g_return_if_fail (c);
+    TRACE ("entering focus direction");
+
+    for (c2 = c->next, i = 1; c && i < c->screen_info->client_count; i++, c2 = c2->next)
+    {
+        if (!clientSelectMask (c2, NULL, 0, WINDOW_REGULAR_FOCUSABLE))
+        {
+            TRACE ("%s not in select mask", c2->name);
+            continue;
+        }
+
+        switch (dir) 
+        {
+        case FOCUS_UP:
+            diff = c->y - c2->y;
+            break;
+        case FOCUS_DOWN:
+            diff = c2->y - c->y;
+            break;
+        case FOCUS_LEFT:
+            diff = c->x - c2->x;
+            break;
+        case FOCUS_RIGHT:
+            diff = c2->x - c->x;
+            break;
+        }
+
+        if (diff > 0 && cur > diff) 
+        {
+            cur = diff;
+            n = c2;
+        }
+    }
+
+    if (n) 
+    {
+        clientSetFocus (c->screen_info, n, myDisplayGetCurrentTime (c->screen_info->display_info),
+                        NO_FOCUS_FLAG);
+    }
 }
