@@ -618,7 +618,11 @@ loadKeyBindings (ScreenInfo *screen_info)
     parseShortcut (screen_info, KEY_TOGGLE_ABOVE, "above_key", shortcuts);
     parseShortcut (screen_info, KEY_TOGGLE_FULLSCREEN, "fullscreen_key", shortcuts);
     parseShortcut (screen_info, KEY_UP_WORKSPACE, "up_workspace_key", shortcuts);
-
+    parseShortcut (screen_info, KEY_FOCUS_UP, "focus_up_key", shortcuts);
+    parseShortcut (screen_info, KEY_FOCUS_LEFT, "focus_left_key", shortcuts);
+    parseShortcut (screen_info, KEY_FOCUS_DOWN, "focus_down_key", shortcuts);
+    parseShortcut (screen_info, KEY_FOCUS_RIGHT, "focus_right_key", shortcuts);
+ 
     for (i = 0; i < 12; i++)
     {
         g_snprintf(keyname, sizeof (keyname), "move_window_workspace_%d_key", i + 1);
